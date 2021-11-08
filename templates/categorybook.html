@@ -1,0 +1,237 @@
+
+
+{% load static %}
+
+{% block content %}
+
+<head>
+    <!-- Basic -->
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <!-- Mobile Metas -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <!-- Site Metas -->
+    <link rel="icon" href="{% static 'images/favicon.png' %}" type="image/gif" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+        integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+
+    <title>KitabXana</title>
+
+    <!-- bootstrap core css -->
+    <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.css' %}" />
+    <!-- font awesome style -->
+    <link href="{% static 'css/font-awesome.min.css' %}" rel="stylesheet" />
+
+    <!-- Custom styles for this template -->
+    <link href="{% static 'css/style.css' %}" rel="stylesheet" />
+    <!-- responsive style -->
+    <link href="{% static 'css/responsive.css' %}" rel="stylesheet" />
+
+</head>
+<header class="header_section">
+    <div class="container-fluid">
+        <nav class="navbar navbar-expand-lg custom_nav-container ">
+            <a class="navbar-brand" href="{% url 'home' %}">
+                <span>
+                    BookStore
+                </span>
+            </a>
+
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class=""> </span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav">
+                    <li class="nav-item active">
+                        <a class="nav-link pl-lg-0" href="{% url 'home' %}">AnaSeyfe <span
+                                class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'about' %}">Haqqimizda</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'categorys' %}">Kategoriyalar</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'booklist' %}">Kitablarimiz</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'contact' %}">Əlaqə</a>
+                    </li>
+                </ul>
+                <from class="search_form">
+                    <input type="text" class="form-control" placeholder="Axtaris...">
+                    <button class="" type="submit">
+                        <i class="fa fa-search" aria-hidden="true"></i>
+                    </button>
+                </from>
+            </div>
+        </nav>
+    </div>
+</header>
+
+
+<!DOCTYPE html>
+<html>
+
+<style>
+    .borderler {
+        color: #1e272e !important;
+        border-width: 2px !important;
+    }
+
+    .borderler:hover {
+        background-color: #7f8c8d;
+        transition: all 0.5s;
+        border-color: #7f8c8d !important;
+        color: #fff !important;
+    }
+
+
+</style>
+
+
+<body class="sub_page" style="background-color: #F5F6F9 !important;">
+    <div class="allItem">
+        <!-- blog section -->
+        <section class="blog_section layout_padding " >
+            <div class="container" style="position: relative;bottom: 110px;">
+                <div class="heading_container heading_center">
+                    <h2 class="font-weight-lighter ml-5 border rounded p-3 border-dark borderler d-none" id="kitablar">
+                        Kitablarimiz
+                    </h2>
+                </div>
+                <div class="row" id="bookList">
+                {% if uzunlukkategori > 0 %}
+                    {% for data in ctgbook %}
+                    <div class="col-md-6" style="width:330px;height:680.8px">
+                        <div class="box">
+                            <div class="img-box shadow" style="background-color: #fff;">
+                                <img src="{{data.image.url}}" alt=""
+                                    style="width: 450px;height: 334px;" id="sekil">
+                                <h4 class="blog_date" id="blog_date">
+                                    <span>
+                                        {{data.yazilma_tarixi}}
+                                    </span>
+                                </h4>
+                            </div>
+                            <div class="detail-box">
+                                <h5>
+                                    <span class="text-muted">Kitabın Adı</span> - {{data.name}}<br>
+                                    <span class="text-muted">Kitabın Müəllifi</span> - {{data.author}}
+                                </h5>
+                                <p>
+                                    {{data.bio|truncatewords:30}}
+                                </p>
+                                <a href="{% url 'detail' data.id %}">
+                                    Daha Ətraflı
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                {% else %}
+                <div class="container mt-4">
+                        <div class="col-lg-6 offset-3 alert alert-info mt-3 text-center">
+                            <strong class="text-dark">Kategoriyaya Uygun Kitab Movcud Deyil</strong>
+                        </div>
+                </div>
+                {% endif %}
+                </div>
+            </div>
+        </section>
+        <!-- end blog section -->
+        
+        
+
+        <!-- info section -->
+
+        <section class="info_section layout_padding2" style="position: relative; top: 85px;overflow: hidden;">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6 col-lg-3 info-col">
+                        <div class="info_detail">
+                            <h4>
+                                About Us
+                            </h4>
+                            <p>
+                                Vitae aut explicabo fugit facere alias distinctio, exem commodi mollitia minusem
+                                dignissimos atque asperiores incidunt vel voluptate iste
+                            </p>
+                            <div class="info_social">
+                                <a href="">
+                                    <i class="fa fa-facebook" aria-hidden="true"></i>
+                                </a>
+                                <a href="">
+                                    <i class="fa fa-twitter" aria-hidden="true"></i>
+                                </a>
+                                <a href="">
+                                    <i class="fa fa-linkedin" aria-hidden="true"></i>
+                                </a>
+                                <a href="">
+                                    <i class="fa fa-instagram" aria-hidden="true"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-3 info-col">
+                        <div class="info_contact">
+                            <h4>
+                                Address
+                            </h4>
+                            <div class="contact_link_box">
+                                <a href="">
+                                    <i class="fa fa-map-marker" aria-hidden="true"></i>
+                                    <span>
+                                        Location
+                                    </span>
+                                </a>
+                                <a href="">
+                                    <i class="fa fa-phone" aria-hidden="true"></i>
+                                    <span>
+                                        Call +01 1234567890
+                                    </span>
+                                </a>
+                                <a href="">
+                                    <i class="fa fa-envelope" aria-hidden="true"></i>
+                                    <span>
+                                        demo@gmail.com
+                                    </span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-3 info-col">
+                        <div class="info_contact">
+                            <h4>
+                                Newsletter
+                            </h4>
+                            <form action="#">
+                                <input type="text" placeholder="Enter email" />
+                                <button type="submit">
+                                    Subscribe
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-3 info-col">
+                        <div class="map_container">
+                            <div class="map">
+                                <div id="googleMap"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- end info section -->
+
+</body>
+{% endblock content %}

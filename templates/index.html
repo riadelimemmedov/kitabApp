@@ -1,0 +1,513 @@
+{% extends "base.html" %}
+{% load custom_tags %}
+{% load static %}
+
+{% block content %}
+<!DOCTYPE html>
+<html>
+
+<style>
+  .kitab {
+    border: 1px solid #eee;
+  }
+
+  .kitab:hover {
+    border-radius: 7px;
+    border-color: #34495e;
+    transition: border 0.5s;
+  }
+
+  #kategoryTitle:hover {
+    color: #84817a !important;
+    cursor: pointer;
+    transition: color 0.2s;
+  }
+
+  #dahacox {
+    color: #282846 !important;
+    font-weight: bold !important;
+  }
+
+  #dahacox:hover {
+    color: #fff !important;
+  }
+
+  #blogtitle:hover {
+    background-color: #F5F6F9 !important;
+    color: black !important;
+    transition: color 0.5s !important;
+  }
+</style>
+
+
+<body>
+
+  <div class="hero_area">
+    <!-- header section strats -->
+    <!-- end header section -->
+    <!-- slider section -->
+    <section class="slider_section ">
+      <div id="customCarousel1" class="carousel slide" data-ride="carousel">
+        <div class="carousel-inner">
+          <div class="carousel-item active">
+            <div class="container ">
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="detail-box">
+                    <h5>
+                      BookStore KitabXana
+                    </h5>
+                    <h1>
+                      Hamınız Üçün
+                      Oxuma ehtiyacları<br>
+                    </h1>
+                    <p>
+                      Məhşur Yazılar Tərəfindən Yazılmıs Kitablar Haqqında Qısa Melumatlar
+                    </p>
+                    <a href="{% url 'booklist' %}">
+                      Daha Ətrafli
+                    </a>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="img-box">
+                    <img src="{% static 'images/slider-img.png' %}" alt="">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="carousel-item">
+            <div class="container ">
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="detail-box">
+                    <h5>
+                      BookStore KitabXana
+                    </h5>
+                    <h1>
+                      Hamınız Üçün
+                      Oxuma ehtiyacları
+                      <br>
+
+                    </h1>
+                    <p>
+                      Məhşur Yazılar Tərəfindən Yazılmıs Kitablar Haqqında Qısa Melumatlar
+                    </p>
+                    <a href="{% url 'booklist' %}">
+                      Daha Ətrafli
+                    </a>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="img-box">
+                    <img src="{% static 'images/sekil1.jpg' %}" alt="">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="carousel-item">
+            <div class="container ">
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="detail-box">
+                    <h5>
+                      BookStore KitabXana
+                    </h5>
+                    <h1>
+                      Hamınız Üçün
+                      Oxuma ehtiyacları
+                    </h1>
+                    <p>
+                      Məhşur Yazılar Tərəfindən Yazılmıs Kitablar Haqqında Qısa Melumatlar
+                    </p>
+                    <a href="{% url 'booklist' %}">
+                      Daha Ətrafli
+                    </a>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="img-box">
+                    <img src="{% static 'images/sekil2.jpg' %}" alt="">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="carousel_btn_box">
+          <a class="carousel-control-prev" href="#customCarousel1" role="button" data-slide="prev">
+            <i class="fa fa-angle-left" aria-hidden="true"></i>
+            <span class="sr-only">Previous</span>
+          </a>
+          <a class="carousel-control-next" href="#customCarousel1" role="button" data-slide="next">
+            <i class="fa fa-angle-right" aria-hidden="true"></i>
+            <span class="sr-only">Next</span>
+          </a>
+        </div>
+      </div>
+    </section>
+    <!-- end slider section -->
+  </div>
+
+
+  <!-- catagory section -->
+
+  <section class="catagory_section layout_padding">
+    <div class="catagory_container">
+      <div class="container ">
+        <div class="heading_container heading_center">
+          <h2>
+            Kitab Kategoriyası
+          </h2>
+          <p class="text-muted">
+            Muxtəlif Növdə Kitab Çeşidləri
+          </p>
+        </div>
+        <div class="row">
+          {% categories as kategoriyalar %}
+          {% for kategoriya in kategoriyalar %}
+          <div class="col-sm-6 col-md-4 ">
+            <div class="box ">
+              <div class="img-box kitab">
+                <img src="{{kategoriya.category_picture.url}}" alt="">
+              </div>
+              <div class="detail-box">
+                <h5>
+                  <a style="color: #30336b;" id="kategoryTitle"
+                    href="{% url 'categorybook' kategoriya.slug  %}">{{kategoriya.title}}</a>
+                </h5>
+                <p>
+                  {{kategoriya.text}}
+              </div>
+              </p>
+            </div>
+          </div>
+          {% endfor %}
+          <a href="{% url 'categorys' %}" class="btn btn-outline-dark btn-block text-dark" id="dahacox">Daha Cox
+            Kategoriya</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- end catagory section -->
+
+  <!-- about section -->
+
+  <section class="about_section layout_padding">
+    <div class="container ">
+      <div class="row">
+        <div class="col-md-6">
+          <div class="img-box">
+            <img src="{% static 'images/about-img.png' %}" alt="">
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="detail-box">
+            <div class="heading_container">
+              <h2>
+                Bookstore Haqqında
+              </h2>
+            </div>
+            <p>
+              Bookstore Yaradılma Səbəbi İstifadəcilərə Yazılmıs Kitablar Haqqında Qısa Məlumatlar Vermədir
+            </p>
+            <a href="{% url 'booklist' %}">
+              Kitablar</a>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- end about section -->
+
+  <!-- client section -->
+
+
+
+  <!-- end client section -->
+
+  <!-- blog section -->
+
+  <section class="blog_section layout_padding">
+    <div class="container">
+      <div class="heading_container heading_center">
+        <h2 class="p-2 text-secondary" id="blogtitle">
+          Ən Son Bloglarımiz
+        </h2>
+      </div>
+      <div class="row">
+        {% posts as postlar %}
+        <!-- Yeni posts namesini template_tagsdam gelen nameni deyisib postlat etdim bunu custom taglarda edirler cox vaxt -->
+        {% for post in postlar %}
+        <div class="col-md-6">
+          <div class="box">
+            <div class="img-box">
+              <img class="shadow" src="{{post.image.url}}" height="360px" alt="">
+              <h4 class="blog_date">
+                <span>
+                  {{post.publishing_date|date:'F d,Y'}}
+                  <!-- date djanggodaki datedir date:F d Y seklinde yaz hemise daha rahat olur bu formada -->
+                </span>
+              </h4>
+            </div>
+            <div class="detail-box">
+              <h5>
+                {{post.title}}
+              </h5>
+              <p>
+                {{post.content|truncatewords:50}}
+              </p>
+              <a href="{% url 'postdetail' post.id %}">
+                Daha Ətrafli
+              </a>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+        <a href="{% url 'posts' %}" class="btn btn-block font-weight-bold"
+          style="color: #2c3e50 !important;text-decoration: underline ;">Butun Bloglar</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- end blog section -->
+
+  <!-- contact section -->
+
+  
+
+  <section class="contact_section layout_padding">
+    <div class="container">
+      <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+        <symbol id="check-circle-fill" fill="currentColor" viewBox="0 0 16 16">
+          <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+        </symbol>
+        <symbol id="info-fill" fill="currentColor" viewBox="0 0 16 16">
+          <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/>
+        </symbol>
+        <symbol id="exclamation-triangle-fill" fill="currentColor" viewBox="0 0 16 16">
+          <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+        </symbol>
+      </svg>
+
+      <div id="alertBox">
+        
+      </div>
+      <div class="row">
+        <div class="col-md-6 ">
+          <div class="heading_container ">
+            <h2 class="">
+              Bizimlə Əlaqə
+            </h2>
+          </div>
+          <form id="formAlani">
+            {% csrf_token %}
+            <div>
+              <input type="text" placeholder="Adiniz" / id="ad">
+            </div>
+            <div>
+              <input type="email" placeholder="Email Adresiniz"/ id="emailAdress">
+            </div>
+            <div>
+              <input type="text" placeholder="Telefon Nomreniz : +994"/ id="telefonNomre">
+            </div>
+            <div>
+              <input type="text" class="message-box" placeholder="Mesajiniz" / id="mesajAdress">
+            </div>
+            <div class="btn-box">
+              <button type="submit">
+                <!-- eger form ile data gonderirsense butonun typini submit olarag yaz -->
+                Gonder
+              </button>
+            </div>
+          </form>
+        </div>
+        <div class="col-md-6">
+          <div class="img-box">
+            <img src="{% static 'images/contact-img.png' %}" alt="">
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- end contact section -->
+
+  <!-- info section -->
+
+  <section class="info_section layout_padding2">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6 col-lg-3 info-col">
+          <div class="info_detail">
+            <h4>
+              About Us
+            </h4>
+            <p>
+              Vitae aut explicabo fugit facere alias distinctio, exem commodi mollitia minusem dignissimos atque
+              asperiores incidunt vel voluptate iste
+            </p>
+            <div class="info_social">
+              <a href="">
+                <i class="fa fa-facebook" aria-hidden="true"></i>
+              </a>
+              <a href="">
+                <i class="fa fa-twitter" aria-hidden="true"></i>
+              </a>
+              <a href="">
+                <i class="fa fa-linkedin" aria-hidden="true"></i>
+              </a>
+              <a href="">
+                <i class="fa fa-instagram" aria-hidden="true"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-3 info-col">
+          <div class="info_contact">
+            <h4>
+              Address
+            </h4>
+            <div class="contact_link_box">
+              <a href="">
+                <i class="fa fa-map-marker" aria-hidden="true"></i>
+                <span>
+                  Location
+                </span>
+              </a>
+              <a href="">
+                <i class="fa fa-phone" aria-hidden="true"></i>
+                <span>
+                  Call +01 1234567890
+                </span>
+              </a>
+              <a href="">
+                <i class="fa fa-envelope" aria-hidden="true"></i>
+                <span>
+                  demo@gmail.com
+                </span>
+              </a>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-3 info-col">
+          <div class="info_contact">
+            <h4>
+              Newsletter
+            </h4>
+            <form action="#">
+              <input type="text" placeholder="Enter email" />
+              <button type="submit">
+                Subscribe
+              </button>
+            </form>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-3 info-col">
+          <div class="map_container">
+            <div class="map">
+              <div id="googleMap"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
+
+
+  <script>
+    const nameData = document.getElementById('ad')
+    const emailData = document.getElementById('emailAdress')
+    const telefonNomreData = document.getElementById('telefonNomre')
+    const mesajData = document.getElementById('mesajAdress')
+
+
+    const csrf = document.getElementsByName('csrfmiddlewaretoken')
+
+
+    const form = document.getElementById('formAlani')
+
+    const url = window.location.href
+    const resultUrl = url.replace('contact/', '')
+    const alertBox = document.getElementById('alertBox')
+    console.log()
+
+    console.log(resultUrl);
+
+    const handleAlerts = function (type, text) {
+      alertBox.innerHTML += `
+    <div class="alert alert-${type} d-flex align-items-center" role="alert" >
+            <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:"><use xlink:href="#check-circle-fill"/>
+            
+            </svg>
+            
+            <div class="ml-2">      
+                <strong>${text}</strong>
+            </div>    
+    </div>
+    `
+    }
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault()
+      $.ajax({
+        type: 'POST',
+        url: `${url}users/ajaxcontact/`,
+        data: {
+          'csrf': csrf[0].value,
+          'name': nameData.value,
+          'email': emailData.value,
+          'number': telefonNomre.value,
+          'message': mesajData.value,
+        },
+        success: function (response) {
+          if(nameData.value == '' || emailData.value == ''| telefonNomreData.value == ''|mesajData.value == ''){
+                handleAlerts('info', 'Zehmet olmasa asagidaki form melumatlarini doldurun')
+                setTimeout(function () {
+                    $('#alertBox').hide('slow')
+                },3000)
+
+                setTimeout(function () {
+                    window.location.reload()
+                },5000)
+                
+          }
+          else{
+              handleAlerts('success', 'Sorgunuz ugurlu bir sekilde gonderildi')
+              setTimeout(function(){
+                $('#alertBox').hide('slow')
+              },3000)
+
+              setTimeout(function () {
+                  window.location.reload()
+              },5000)
+          }
+          
+        },
+        error: function (err) {
+          console.log(err)
+          handleAlerts('danger','Gonderilme zamani xeta bas verdi,zehmet olmasa yeniden yoxlayin')
+          setTimeout(function(){
+            $('#alertBox').hide('slow')
+          },2000)
+
+          setTimeout(function(){
+              window.location.reload()
+          },5000)
+        }
+      })
+    })
+  </script>
+  <!-- end info section -->
+
+</body>
+
+</html>
+{% endblock content %}

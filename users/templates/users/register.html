@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Qeydiyyat</title>
+</head>
+
+    <div class="row">
+        <div class="col-md-6 mx-auto">
+            <div class = "card mt-5">
+                <div class = "card-header bg-secondary text-light text-center" style="background-color:#576574!important;outline: none;border:none">
+                    <h4 class="font-weight-bold">Qeydiyyat Formu</h4>
+                </div>
+
+                <div class = "card-body" style="outline: none;border: none;">
+                    <form action="{% url 'register' %}" method="POST">
+                        {% csrf_token %}
+                        <div class = "form-group">
+                            <label for="username">Ad</label><!-- labeldaki for ile input name deki deyerler eyni olmalidir id kimi dusun -->
+                            <input type="text" name="username" class="form-control" required><!-- Required ise teleb etmek kimi bir syedi yeni burda mutleq deyer girilmelidir -->
+                        </div>
+                        <!-- Bunlar bir classdan toreyibler form group-->
+                        
+                        <div class = "form-group">
+                            <label for="email">Email</label><!-- labeldaki for ile input name deki deyerler eyni olmalidir id kimi dusun -->
+                            <input type="email" name="email" class="form-control" required><!-- Required ise teleb etmek kimi bir syedi yeni burda mutleq deyer girilmelidir -->
+                        </div>
+
+                        <div class = "form-group">
+                            <label for="password">Sifre</label><!-- labeldaki for ile input name deki deyerler eyni olmalidir id kimi dusun -->
+                            <input type="password" name="password" class="form-control" required><!-- Required ise teleb etmek kimi bir syedi yeni burda mutleq deyer girilmelidir -->
+                        </div>
+
+                        <div class = "form-group">
+                            <label for="repassword">Sifre Tekrar</label><!-- labeldaki for ile input name deki deyerler eyni olmalidir id kimi dusun -->
+                            <input type="password" name="repassword" class="form-control" required><!-- Required ise teleb etmek kimi bir syedi yeni burda mutleq deyer girilmelidir -->
+                        </div>
+
+                        <!--yadda saxla hemise birinci mesajin olub olmamgini yoxla sonra if e girsin hemise birinci if sonra ise for olmalidir yeni yoxlasin birinci bele bir mesaj var ya yoxudr eger varsa for a girib mesajlari ekrana yazdirsin-->
+                        {% if messages %}
+                            {% for message in messages %}
+                            <div class="alert alert-{{message.tags}} alert-dismissible fade show" role="alert">
+                                <strong>{{message}}</strong>
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            {% endfor %}
+                        {% endif %}
+
+                        <button type="submit" class ="btn btn-outline-secondary btn-block text-dark font-weight-bold">Qeydiyyat</button><!--Burda butonun type olarag submit yazilmasindaki sebeb form yazirig ve form ile data gonderirikse eger butonun type submit olmalidir-->
+
+                    </form>
+                </div>
+                    
+                
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+</html>

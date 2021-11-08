@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Catgory List</title>
+</head>
+
+<style>
+  #dahacox:hover{
+    color: #fff !important;
+  }
+</style>
+
+<body>
+  
+  <section class="catagory_section layout_padding">
+    <div class="catagory_container">
+      <div class="container ">
+        <div class="heading_container heading_center">
+          <h2>
+            Kitab Kategoriyası
+          </h2>
+          <p class="text-muted">
+            Muxtəlif Növdə Kitab Çeşidləri
+          </p>
+        </div>
+        <div class="row">
+          {% for kategoriya in categoryList %}
+            <div class="col-sm-6 col-md-4 ">
+              <div class="box ">
+                <div class="img-box kitab">
+                  <img src="{{kategoriya.category_picture.url}}" alt="">
+                </div>
+                <div class="detail-box">
+                  <h5>
+                      <a style="color: #30336b;" id="kategoryTitle" href="{% url 'categorybook' kategoriya.slug %}">{{kategoriya.title}}</a>
+                  </h5>
+                  <p>
+                      {{kategoriya.text}}
+                  </div>
+                  </p>
+              </div>
+            </div>
+        {% endfor %}
+        <a class="btn btn-outline-dark btn-block text-dark" id="dahacox">Daha Cox </a>
+        </div>
+      </div>
+    </div>
+  </section>
+</body> 
+</html>
+{% endblock content %}
