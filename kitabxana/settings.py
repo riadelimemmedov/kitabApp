@@ -38,7 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'book',
-    'users'
+    'users',
+    'crispy_forms',
 ]
 
 MIDDLEWARE = [
@@ -132,6 +133,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR,'media')
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 from django.contrib.messages import constants as messages#as ile import elediyivin adini deyise bilirsen
 

@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
+{% load crispy_forms_tags %}
 
 {% block content %}
 <!DOCTYPE html>
@@ -145,7 +146,7 @@
                         <a class="list-group-item list-group-item-action" data-toggle="list"
                             href="#account-social-links">Sosial Media Linkleri</a>
                         <a class="list-group-item list-group-item-action" data-toggle="list"
-                            href="#account-connections">Elaqe</a><!--!mail adresini yaz bura-->
+                            href="#account-connections">Post Yarat</a><!--!mail adresini yaz bura-->
                     </div>
                 </div>
                 <div class="col-md-9">
@@ -276,32 +277,22 @@
 
                             </div>
                         </div>
+
+                        <!--!Create Post Js-->
+
                         <div class="tab-pane fade" id="account-connections">
-                            <div class="card-body">
-                                <button type="button" class="btn btn-twitter">Connect to
-                                    <strong>Twitter</strong></button>
-                            </div>
-                            <hr class="border-light m-0">
-                            <div class="card-body">
-                                <h5 class="mb-2">
-                                    <a href="javascript:void(0)" class="float-right text-muted text-tiny"><i
-                                            class="ion ion-md-close"></i> Remove</a>
-                                    <i class="ion ion-logo-google text-google"></i>
-                                    You are connected to Google:
-                                </h5>
-                                nmaxwell@mail.com
-                            </div>
-                            <hr class="border-light m-0">
-                            <div class="card-body">
-                                <button type="button" class="btn btn-facebook">Connect to
-                                    <strong>Facebook</strong></button>
-                            </div>
-                            <hr class="border-light m-0">
-                            <div class="card-body">
-                                <button type="button" class="btn btn-instagram">Connect to
-                                    <strong>Instagram</strong></button>
+                            <div class="container">
+                                <div id="alert-box" class="mt-2"></div>
+                                <div class="img-box"></div><!-- Burda seklimi gosterecem width="100px" vermeyi unutma -->
+                                <form id="p-form" autocomplete="off">
+                                    {% csrf_token %}
+                                    {{form|crispy}}
+                                    <button type="submit" class="btn btn-primary float-right">Yarat</button><!-- Eger form icinde buton yazirsansa onda butonun type submit olmalidir -->
+                                </form>
                             </div>
                         </div>
+
+
                         <div class="tab-pane fade" id="account-notifications">
                             <div class="card-body pb-2">
 
@@ -384,10 +375,12 @@
 
 
 
-        <div class="text-right mt-3">
+        <!-- <div class="text-right mt-3">
             <button type="button" class="btn btn-primary">Yadda Saxla</button>&nbsp;
             <button type="button" class="btn btn-default">Legv Et</button>
-        </div>
+        </div> -->
+        <script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
+        <script src="{% static 'js/post.js' %}"></script>
 
     </div>
 </body>

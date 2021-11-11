@@ -19,6 +19,12 @@ def userProfile(request):
     }
     return render(request,'profile.html',context)
 
+@csrf_exempt
+def postAddView(request):
+    pass
+    
+
+
 def userPicture(request,*args,**kwargs):
     istifadeci = UserProfile.objects.filter(user=request.user)#filtere sert qoyanda hemin datani cekib getirir onsuz
     data = serializers.serialize('json',istifadeci)#json formatinda donder yeni
@@ -54,6 +60,7 @@ def concactViewAjax(request):
             
 #             profile = form.save(commit=False)
 #             profile.user = request.user
+
 
 #!Login,Register,Logout
 def loginView(request):

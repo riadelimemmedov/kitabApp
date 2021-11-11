@@ -72,8 +72,8 @@ form.addEventListener('submit', function (e) {
                 }, 2000)
 
                 setTimeout(function () {
-                    window.location.reload()
+                    window.location.reload()    
                 }, 5000)
         }
     })
-})
+})  
