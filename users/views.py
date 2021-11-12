@@ -21,7 +21,8 @@ def userProfile(request):
 
 @csrf_exempt
 def postAddView(request):
-    pass
+    if request.is_ajax():
+        return JsonResponse({'data':True})
     
 
 
@@ -52,14 +53,7 @@ def concactViewAjax(request):
             
     return JsonResponse({'data':'Ugurlu'})
     
-# def changeData(request):
-#     form = ProfileData(request.POST or None)
-#     if request.method == 'POST':
-#         if form.is_valid():
-#             pass
-            
-#             profile = form.save(commit=False)
-#             profile.user = request.user
+
 
 
 #!Login,Register,Logout
