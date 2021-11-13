@@ -283,23 +283,25 @@
                         <div class="tab-pane fade" id="account-connections">
                             <div class="container">
                                 <div id="alert-box" class="mt-2"></div>
+                                
                                 <div class="img-box">
 
                                 </div><!-- Burda seklimi gosterecem width="100px" vermeyi unutma -->
+
                                 <form id="p-form" autocomplete="off" class="form-group mt-4">
                                     {% csrf_token %}    
-                                    <input type="text" class="form-control text-dark" placeholder="Baslig">
-                                    <textarea class="form-control mt-1" cols="10" rows="3" placeholder="Yazilacag Metn"></textarea>
+                                    <input id="titleValue" type="text" class="form-control text-dark" placeholder="Baslig" name="title">
+                                    <textarea id="bodyValue" class="form-control mt-1" cols="10" rows="3" placeholder="Yazilacag Metn" name="bio"></textarea>
                                     
                                     <br>
-                                    <label for="myfile">Fayl Secin</label>
-                                    <input type="file" name="sekil" id="myfile"><!-- !Yadda saxlaki labelin for u ile inputun id si biri birine beraberdir -->
+                                    <label for="myfile" class="requiredField">Fayl Secin</label>
+                                    <input type="file" name="image" accept="image/*" id="myfile" class="clearablefileinput form-control-file"><!-- !Yadda saxlaki labelin for u ile inputun id si biri birine beraberdir -->
                                     
                                     <button type="submit" class="btn btn-primary float-right mt-2">Yarat</button><!-- Eger form icinde buton yazirsansa onda butonun type submit olmalidir -->
                                 </form>
                             </div>
                         </div>
-
+                    <!--!.......................................................................................-->
 
                         <div class="tab-pane fade" id="account-notifications">
                             <div class="card-body pb-2">
@@ -387,7 +389,7 @@
             <button type="button" class="btn btn-primary">Yadda Saxla</button>&nbsp;
             <button type="button" class="btn btn-default">Legv Et</button>
         </div> -->
-        <script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
+        <script src="{% static 'js/jquery-3.4.1.min.js' %}" defer></script>
         <script src="{% static 'js/post.js' %}"></script>
 
     </div>
