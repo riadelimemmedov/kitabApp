@@ -282,22 +282,33 @@
 
                         <div class="tab-pane fade" id="account-connections">
                             <div class="container">
-                                <div id="alert-box" class="mt-2"></div>
+                                <div id="alert-box" class="mt-2">
+
+                                </div>
                                 
                                 <div class="img-box">
 
                                 </div><!-- Burda seklimi gosterecem width="100px" vermeyi unutma -->
 
-                                <form id="p-form" autocomplete="off" class="form-group mt-4">
-                                    {% csrf_token %}    
+                                <form id="p-form" autocomplete="off" class="form-group mt-4" enctype="multipart/form-data">
+                                    {% csrf_token %}
+
                                     <input id="titleValue" type="text" class="form-control text-dark" placeholder="Baslig" name="title">
                                     <textarea id="bodyValue" class="form-control mt-1" cols="10" rows="3" placeholder="Yazilacag Metn" name="bio"></textarea>
                                     
                                     <br>
-                                    <label for="myfile" class="requiredField">Fayl Secin</label>
-                                    <input type="file" name="image" accept="image/*" id="myfile" class="clearablefileinput form-control-file"><!-- !Yadda saxlaki labelin for u ile inputun id si biri birine beraberdir -->
+                                    <!-- <label for="myfile" class="requiredField">Fayl Secin</label>
+                                    <input type="file" name="image" accept="image/*" class="clearablefileinput form-control-file" id="myfile" required> -->
                                     
-                                    <button type="submit" class="btn btn-primary float-right mt-2">Yarat</button><!-- Eger form icinde buton yazirsansa onda butonun type submit olmalidir -->
+                                    <label for="id_image" class=" requiredField">
+                                        Image<span class="asteriskField">*</span>
+                                    </label>
+                                    <div class=""> 
+                                        <input type="file" name="image" accept="image/*" class="clearablefileinput form-control-file" required="" id="id_image"> 
+                                    </div>
+
+                                    <button type="submit" class="btn btn-primary float-right mt-2">Yarat</button> 
+
                                 </form>
                             </div>
                         </div>

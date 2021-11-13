@@ -17,7 +17,10 @@ class ProfileData(forms.ModelForm):
         fields = '__all__'
     
     
-
+class PostForm(forms.ModelForm):
+    class Meta:
+        model = Post
+        fields = ['title','content','image']
         
 #!LoginForm
 class LoginForm(forms.Form):#Form yazilmasindaki sebeb ozumu form yaradirig eger databaseden cekseydik onda forms.ModelForm dan istifade edecekdik

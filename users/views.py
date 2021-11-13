@@ -21,8 +21,19 @@ def userProfile(request):
 
 @csrf_exempt
 def postAddView(request):
-    if request.is_ajax():
-        return JsonResponse({'data':True})
+        if request.is_ajax():
+            # print(request.POST.get('title'))
+            title = request.POST.get('title')
+            content = request.POST.get('body')
+            image = request.POST.get('image')
+            
+            print(image)
+            
+            
+            result = Post(title=title,content=content,image=image,user=request.user)
+            result.save()
+            
+            return JsonResponse({'data':True})
     
 
 
