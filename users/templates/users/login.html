@@ -88,17 +88,30 @@
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
     <br>
     <br>
+
+
     <div class="container">
+
+        {% if messages %}
+            {% for message in messages %}
+            <div class="offset-2" style="width:735px" id="xetaGosterme">
+                <div class="alert alert-{{message.tags}}">
+                    <strong class="text-muted">{{message}}</strong>
+                </div>
+            </div>
+            {% endfor %}
+        {% endif %}
+
         <div class="row justify-content-center">
             <div class="col-md-8">
-                <div class="card-group mb-0">
+                <div class="card-group mb-0 shadow">
                     <div class="card p-4 shadow border rounded">
                         <div class="card-body">
                             <h3>Giris</h3>
                             <p class="text-muted">Qeydiyyat</p>
                         
                         <!--!Login Formu -->
-                        <form method="POST">
+                        <form method="POST" id="loginForm">
                             {% csrf_token %}
                                 <div class="input-group mb-3">
                                     <span class="input-group-addon"><i class="fa fa-user mt-2"></i></span>
@@ -116,7 +129,7 @@
                                         <button type="submit" class="btn btn-primary px-4">Giris</button>
                                     </div>
                                     <div class="col-6 text-right">
-                                        <button type="button" class="btn btn-link px-0">Sifre Deyis</button>
+                                        <a href="{% url 'changepassword' %}" class="btn btn-link px-0">Sifre Deyis</a>
                                     </div>
                                 </div>
                         </form>
@@ -140,4 +153,6 @@
 </body>
 
 </html>
+<script src="{% static 'js/jquery-3.4.1.min.js' %}" defer></script>
+<script src="{% static 'js/login.js' %}"></script>
 {% endblock content %}

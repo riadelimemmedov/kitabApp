@@ -6,7 +6,14 @@ from django.contrib.auth import login,authenticate,logout
 from django.contrib import messages
 from django.views.generic import View
 from django.core import serializers
+from django.contrib import messages
 from django.contrib.auth.models import User
+from django.contrib import messages
+from django.contrib.auth import update_session_auth_hash
+from django.contrib.auth.forms import PasswordChangeForm
+from django.core.files.storage import FileSystemStorage
+from django.core.files.base import ContentFile
+import base64
 from .forms import *
 from django.http import JsonResponse
 # from users.forms import ContactForm,ProfileData
@@ -14,26 +21,106 @@ from django.http import JsonResponse
 # Create your views here.
 def userProfile(request):
     profile = UserProfile.objects.get(user=request.user)
+    form = PostForm(request.POST or None,request.FILES or None)
+    form2 = PasswordChangeForm(request.user,request.POST)
+    if request.method == 'POST':
+        if form.is_valid():
+            istifadeci = form.save(commit=False)
+            istifadeci.user = request.user
+            istifadeci.save()
+            print(form)
+            return redirect('posts')
+        #burda bidene geri JsonResponse dondererasenki xeta mesajlarini filan tutag
+        else:
+            messages.add_message(request,messages.INFO,'Zehmet Olmasa Girdiyiniz Melumatlari Yoxlayin')
+        
+        
+    else:
+        form = PostForm()
     context = {
         'profile': profile,
+        'form':form
     }
-    return render(request,'profile.html',context)
+    return render(request,'users/profile.html',context)
 
+
+
+#*Bir seyi yadda saxlaki eger bir view yaradirsansa onun ucun mutleq ve mutleq bir url yaratmalisan
+def update_personal_info(request):
+    istifadeciProfil = UserProfile.objects.get(user=request.user)
+    
+    if request.is_ajax():#burdaki request.POST.get(namedeyeri) => Js in Ajax terefinden gelen deyeridir
+        # ad = request.POST.get('ad')
+        # soyad = request.POST.get('soyad')
+        email = request.POST.get('email')
+        oxucalis = request.POST.get('oxucalis')
+        
+        # istifadeciProfil.user = ad
+        # istifadeciProfil.user.username = soyad
+        istifadeciProfil.email = email
+        istifadeciProfil.oxudugucalisdigi = oxucalis
+        
+        #hamsinabagli olan istifadeciProfil oldugu ucun istifadeci profil modelini save() et,onsuz Yadda saxla Djangoda ancag modellerde save() var unutma
+        
+        istifadeciProfil.save()
+        
+        return JsonResponse({
+            # 'ad':ad,
+            # 'soyad':soyad,
+            'email':email,
+            'oxucalis':oxucalis
+        })
 @csrf_exempt
-def postAddView(request):
-        if request.is_ajax():
-            # print(request.POST.get('title'))
-            title = request.POST.get('title')
-            content = request.POST.get('body')
-            image = request.POST.get('image')
-            
-            print(image)
-            
-            
-            result = Post(title=title,content=content,image=image,user=request.user)
-            result.save()
-            
-            return JsonResponse({'data':True})
+def updateInfoExtraInfo(request):
+    istifadeciProfil = UserProfile.objects.get(user=request.user)
+    if request.is_ajax():
+        bioData = request.POST.get('bioData')
+        birthDayData = request.POST.get('birthDayData')
+        olkeData = request.POST.get('olkeData')
+        nomreData = request.POST.get('nomreData')
+        website = request.POST.get('websiteData')
+        
+        istifadeciProfil.bio = str(bioData).strip()
+        istifadeciProfil.dogulduguil = birthDayData
+        istifadeciProfil.olke = olkeData
+        istifadeciProfil.nomre = nomreData
+        istifadeciProfil.website = website
+        
+        istifadeciProfil.save()
+        
+        return JsonResponse({
+            'bioData':bioData,
+            'birthDayData':int(birthDayData),
+            'olkeData':olkeData,
+            'nomreData':nomreData,
+            'website':website
+        })
+        
+
+def change_password(request):
+    if request.method == 'POST':
+        form = PasswordChangeForm(request.user,request.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request,user)
+            return redirect('login')
+    else:
+        form = PasswordChangeForm(request.user)
+    return render(request,'users/change_password.html',{'form':form})
+
+
+# @csrf_exempt
+# def postAddView(request):
+#     form = PostForm(request.POST or None)
+#     if request.method == 'POST':
+#         if form.is_valid():
+#             istifadeci = form.save(commit=False)
+#             istifadeci.user = request.user
+#             istifadeci.save()
+#             return redirect('posts')
+#     else:
+#         form = PostForm()
+#     return render(request,'users/profile.html',{'form':form})
     
 
 
@@ -87,13 +174,15 @@ def loginView(request):
                 login(request,user)
                 return redirect('home')
             else:
-                messages.add_message(request,messages.INFO,'Bele Bir Hesab Yoxdur')
+                print('Bele bir Hesab Yoxdur')
         else:
-            messages.add_message(request,messages.ERROR,'Adinizi ve ya Sifrenizi yoxlayin')
+            messages.add_message(request,messages.INFO,'Adinizi Ve Ya Sifrenizi Kontrol edin')
     else:
         form = LoginForm()
     
     return render(request, 'users/login.html',{'form':form})
+
+
 
 
 def registerView(request):

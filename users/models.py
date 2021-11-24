@@ -9,15 +9,15 @@ from django.conf import settings
 class UserProfile(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL,on_delete=models.CASCADE) 
     bio = models.TextField()
-    image = models.ImageField(upload_to='usersekil/')
+    image = models.FileField(upload_to='usersekil/')
     slug = models.SlugField(unique=True,editable=False)#yeni editible=false yazanda istfiadeci terefindne deyismek mumkun olmayan tiplerdir slugda daha cox istifade olunur unique=True dan
     email = models.EmailField(max_length=255,blank=False)
     oxudugucalisdigi = models.CharField(max_length=255,blank=False)
-    dogulduguil = models.CharField(max_length=255)
-    olke = models.CharField(max_length=255)
-    nomre = models.IntegerField()
+    dogulduguil = models.CharField(max_length=255,blank=False)
+    olke = models.CharField(max_length=255,blank=True)
+    nomre = models.IntegerField(null=True)
     website = models.URLField(max_length=255)
-    
+
     twitter = models.URLField(max_length=255,blank=True)
     facebook = models.URLField(max_length=255,blank=True)
     linkedin = models.URLField(max_length=255,blank=True)

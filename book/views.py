@@ -2,6 +2,7 @@ from django.shortcuts import render,redirect,get_object_or_404
 from django.views.generic import TemplateView,View
 from django.http import JsonResponse
 from django.core import serializers
+from users.models import UserProfile
 from .models import *
 # Create your views here.
 
@@ -39,9 +40,11 @@ def allCategory(request):
 
 def postDetail(request,id):
     post = get_object_or_404(Post,id=id)
+    user = UserProfile.objects.get(user=request.user)
     
     context = {
         'post': post,
+        'user':user
     }
     return render(request,'postdetail.html',context)
 

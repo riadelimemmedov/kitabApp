@@ -58,8 +58,11 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'logout' %}">Cixis</a>
                         </li>
+
                         <li class="nav-item" id="profilSekilId">
+                            
                         </li>
+                        
                     {% else %}
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'login' %}">Giris</a>
@@ -69,6 +72,9 @@
                         </li>
                     {% endif %}
                 </ul>
+
+
+
                 <from class="search_form">
                     <input type="text" class="form-control" placeholder="Axtaris...">
                     <button class="" type="submit">
@@ -79,6 +85,7 @@
         </nav>
     </div>
 </header>
+
 
 
 {% block content %}
@@ -117,8 +124,9 @@
             data.forEach(function(item){
                 console.log(item.fields.image)
                 const profilePicture = `http://127.0.0.1:8000/media/${item.fields.image}`
+                console.log(typeof item.fields.image)
 
-                if(item.fields.image == ''){
+                if(item.fields.image === ''){
                     profilSekilId.innerHTML =  `<a href="{% url 'myProfile' %}" class="nav-link" style="margin-bottom:-20px !important"><img src="{% static 'images/user.png' %}" style="width:32px"></a>`
                 }
                 else{
@@ -127,9 +135,13 @@
             })
         },
         error : function(err){
-            console.log(err)
+            console.log('Xeta var', err)
         }
     })
+
+    
+
+
 
 </script>
 

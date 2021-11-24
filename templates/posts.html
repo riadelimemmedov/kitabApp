@@ -45,7 +45,9 @@
                             <p>
                                 {{post.content|truncatewords:50}}
                             </p>
+                            <a href="{% url 'postdetail' post.id %}">Daha Etrafli</a>
                         </div>
+                        
                     </div>
                 </div>
                 {% endfor %}

@@ -18,6 +18,16 @@ class ProfileData(forms.ModelForm):
     
     
 class PostForm(forms.ModelForm):
+    title = forms.CharField(widget=forms.TextInput(attrs={
+        'class': 'form-control',#cunki 70%-80% faiz Pyhodandaki dictionarylerdeki hem key hem value deyelreri eyni olu,js ise key deyeri string icinde olmur cox vaxt,
+    }),label='Baslig')
+    
+    content = forms.CharField(widget=forms.Textarea(attrs={
+        'class':'form-control',
+        'rows':'3'
+    }),label='Metn')
+    
+    image = forms.ImageField(label='Sekil')
     class Meta:
         model = Post
         fields = ['title','content','image']
@@ -28,13 +38,17 @@ class LoginForm(forms.Form):#Form yazilmasindaki sebeb ozumu form yaradirig eger
         #burda hem key,hem value string icinde yazilmalidir,Pythonda 70%-80% bele olur,Js de ise key teref string icinde yazilmir demek olarki,amma value teref mutleq string icinde yazilmalidir,Pythonda ise cox vaxt her iki teref yeni hem key,hem value,string icinde yazilmalidir 
         'type':'text',
         'class':'form-control ml-2',
-        'placeholder':'Adiniz'
+        'placeholder':'Adiniz',
+        'name':'ad',
+        'id':'adiniz'
     }))
     
     password = forms.CharField(widget=forms.PasswordInput(attrs={
         'type':'password',
         'class':'form-control ml-2',
-        'placeholder':'Sifreniz'
+        'placeholder':'Sifreniz',
+        'name':'sifre',
+        'id':'sifreniz'
     }))
     
 
