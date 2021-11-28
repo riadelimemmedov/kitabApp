@@ -1,5 +1,6 @@
 {% extends "base.html" %}
-{% load static %}<!--Yeni static fayllari html seyfesine yuklemek load vasitsile -->
+{% load static %}
+<!--Yeni static fayllari html seyfesine yuklemek load vasitsile -->
 
 {% block content %}
 <!DOCTYPE html>
@@ -24,13 +25,9 @@
                 <!-- Yeni posts namesini template_tagsdam gelen nameni deyisib postlat etdim bunu custom taglarda edirler cox vaxt -->
                 {% for post in posts %}
                 <div class="col-md-6">
-                    <div class="box">
+                    <div class="box" style="height: 700px !important;background-color: #FFFFFF;">
                         <div class="img-box">
-                            {% if post.image %}
-                                <img class="shadow" src="{{post.image.url}}" height="360px" alt="">
-                            {% else %}
-                                <img class="shadow" src="{% static 'images/unnamed.png' %}" height="360px" alt="">
-                            {% endif %}
+                            <img class="shadow-sm" src="{{post.image.url}}" height="360px" alt="">
                             <h4 class="blog_date">
                                 <span>
                                     {{post.publishing_date|date:'F d,Y'}}
@@ -43,13 +40,20 @@
                                 {{post.title}}
                             </h5>
                             <p>
-                                {{post.content|truncatewords:50}}
+                                {{post.content|truncatewords:44|safe}}
                             </p>
-                            <a href="{% url 'postdetail' post.id %}">Daha Etrafli</a>
+                            {% if post.user == request.user %}<!--Yeni postu yazan istifadeci giris eden istifadeciye beraberdirse if e gir yox eger beraber deyilse else gir -->
+                                <a class="btn btn-primary text-white float-right font-weight-bold" href="{% url 'updatepost' post.id %}">Yenile</a>
+                                <a class="btn btn-danger text-white float-right font-weight-bold mr-1" href="{% url 'deletepost' post.id %}">Sil</a>
+                                <a href="{% url 'postdetail' post.id %}">Daha Etrafli</a>
+                            {% else %}
+                                <a href="{% url 'postdetail' post.id %}">Daha Etrafli</a>
+                            {% endif %}
                         </div>
-                        
                     </div>
                 </div>
+
+
                 {% endfor %}
             </div>
         </div>

@@ -33,7 +33,7 @@ updateForm.addEventListener('submit',e=>{
             bildirimQutu.classList.remove('d-none')
             bildirimQutu.innerHTML = `
                 <div class="alert alert-success alert-dismissible fade show" role="alert">
-                    <strong>Ugurlu Bir Sekilde Melumatlariniz Yenilendi</strong>
+                    <strong style="font-weight: bold;">Ugurlu Bir Sekilde Melumatlariniz Yenilendi</strong>
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                     </button>
@@ -44,7 +44,7 @@ updateForm.addEventListener('submit',e=>{
             bildirimQutu.classList.remove('d-none')
             bildirimQutu.innerHTML = `
                 <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    <strong>Zehmet Olmasa Melumatlariniz Yoxlayin</strong>
+                    <strong style="font-weight: bold;">Zehmet Olmasa Melumatlariniz Yoxlayin</strong>
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                     </button>
@@ -98,7 +98,7 @@ infoForm.addEventListener('submit',e=>{
                 sexsidatabildirim.classList.remove('d-none')
                 sexsidatabildirim.innerHTML = `
                 <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                    <strong>Yas Deyeri Reqem Tipinde Olmalidir</strong>
+                    <strong style="font-weight: bold;">Yas Deyeri Reqem Tipinde Olmalidir</strong>
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                     </button>
@@ -111,7 +111,7 @@ infoForm.addEventListener('submit',e=>{
                 sexsidatabildirim.classList.remove('d-none')
                 sexsidatabildirim.innerHTML = `
                 <div class="alert alert-success alert-dismissible fade show" role="alert">
-                    <strong>Ugurlu Bir Sekilde Melumatlariniz Yenilendi</strong>
+                    <strong style="font-weight: bold;">Ugurlu Bir Sekilde Melumatlariniz Yenilendi</strong>
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                     </button>
@@ -123,7 +123,7 @@ infoForm.addEventListener('submit',e=>{
             sexsidatabildirim.classList.remove('d-none')
             sexsidatabildirim.innerHTML = `
             <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                <strong>Zehmet Olmasa Melumatlariniz Yoxlayin</strong>
+                <strong style="font-weight: bold;">Zehmet Olmasa Melumatlariniz Yoxlayin</strong>
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
                 </button>
@@ -135,6 +135,55 @@ infoForm.addEventListener('submit',e=>{
 
 
 //!Update with js social media profile link
+const socialForm = document.getElementById('socialForm')
+
+const twitterData = document.getElementById('twitterData')
+const facebookData = document.getElementById('facebookData')
+const linkedinData = document.getElementById('linkedinData')
+const instaqramData = document.getElementById('instaqramData')
+
+const urlSocialNow = window.location.href
+const urlSocialNowUrl = urlSocialNow.replace('myprofile/','updatesocialnetwork/')
+
+const socialAlert = document.getElementById('social-alert')
+
+
+socialForm.addEventListener('submit',e=>{
+    e.preventDefault()
+    $.ajax({
+        type:'POST',
+        url:urlSocialNowUrl,
+        data:{
+            'csrfmiddlewaretoken':csrf[0].value,
+            'twitterData':twitterData.value,
+            'facebookData':facebookData.value,
+            'linkedinData':linkedinData.value,
+            'instaqramData':instaqramData.value
+        },
+        success:function(response){
+            socialAlert.classList.remove('d-none')
+            socialAlert.innerHTML = `
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <strong style="font-weight: bold;">Ugurlu Bir Sekilde Melumatlariniz Yenilendi</strong>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            `
+        },
+        error:function(err){
+            socialAlert.classList.remove('d-none')
+            socialAlert.innerHTML = `
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <strong style="font-weight: bold;">Zehmet Olmasa Melumatlariniz Yoxlayin</strong>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            `
+        }
+    })
+})
 
 
 

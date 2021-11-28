@@ -18,6 +18,8 @@ urlpatterns = [
     
     path('updateextrainfo/',updateInfoExtraInfo,name='updateextrainfo'),
     
+    path('updatesocialnetwork/',updateSocialNetwork,name='updatesocialnetwork'),
+    
     
     
 ]

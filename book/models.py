@@ -1,6 +1,8 @@
 from django.db import models
 import random
 from django.contrib.auth.models import User
+from ckeditor.fields import RichTextField
+from users.models import UserProfile
 from django.utils.text import slugify
 
 
@@ -24,13 +26,16 @@ class Category(models.Model):
 
 class Post(models.Model):
     title = models.CharField(max_length=255)
-    content = models.TextField()
+    content = RichTextField()
     publishing_date = models.DateTimeField(auto_now_add=True)
     image = models.ImageField(upload_to='postpicture',blank=False)
     user = models.ForeignKey(User,on_delete=models.CASCADE)
     
     def __str__(self):
-        return self.title
+        return self.title   
+    
+    def number_comment(self):
+        return self.comment_set.all().count()
     
     
 
@@ -59,3 +64,17 @@ class Kitab(models.Model):
         code_string = ''.join(str(item) for item in code_items)#her bir item gotur bu sekilde
         self.mehsulkodu = code_string
         super().save(*args,**kwargs)
+        
+class Comment(models.Model):
+    article = models.ForeignKey(Post,on_delete=models.CASCADE)
+    comment_author = models.ForeignKey(UserProfile,on_delete=models.CASCADE)
+    comment_content = models.CharField(max_length=255)
+    comment_date = models.DateTimeField(auto_now_add=True)
+    
+    def __str__(self):
+        return self.comment_author.user.username
+
+    
+
+    class Meta:
+        ordering = ['-comment_date']

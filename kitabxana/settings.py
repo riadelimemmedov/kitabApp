@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     'users',
     'crispy_forms',
     'django_cleanup',
+    'ckeditor'
+    
 ]
 
 MIDDLEWARE = [
@@ -67,7 +69,6 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'django.template.context_processors.media',
-
             ],
         },
     },
@@ -143,4 +144,13 @@ from django.contrib.messages import constants as messages#as ile import elediyiv
 MESSAGE_TAGS = {
     messages.ERROR:'danger',#error cagirilanda Danger gelecek artig
     50:'critical'
+}
+
+
+CKEDITOR_CONFIGS = {#ckeditora code yazmag desteyi elave edeceyimiz ucun bunu bura yazdig yazmasag icaze vermir CKEDITOR
+    "default": {
+        "removePlugins": "stylesheetparser",
+        'allowedContent':True,
+        'width':'100%'#genislik form qeder olacag form deyisse ckeditorun olcusude deysecey
+    }
 }

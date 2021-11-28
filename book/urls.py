@@ -11,4 +11,10 @@ urlpatterns = [
     path('posts/',allPost,name='posts'),
     path('categorybook/<str:slug>',categoryBook,name='categorybook'),
     path('about/',aboutView,name='about'),
+    path('updatepost/<int:id>/',updatePost,name='updatepost'),
+    path('deletepost/<int:id>/',deletePost,name='deletepost'),
+    path('addComment/<int:id>/',addComment,name='addComment'),
+    
+    path('updateComment/<int:id>/',updateComment,name='updatecomment'),
+
 ]       

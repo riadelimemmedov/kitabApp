@@ -127,10 +127,10 @@
                 console.log(typeof item.fields.image)
 
                 if(item.fields.image === ''){
-                    profilSekilId.innerHTML =  `<a href="{% url 'myProfile' %}" class="nav-link" style="margin-bottom:-20px !important"><img src="{% static 'images/user.png' %}" style="width:32px"></a>`
+                    profilSekilId.innerHTML =  `<a href="{% url 'myProfile' %}" class="nav-link" style="margin-bottom:-20px !important"><img src="{% static 'images/user.png' %}" style="width:32px" class="img-circle avatar"></a>`
                 }
                 else{
-                    profilSekilId.innerHTML =  `<a href="{% url 'myProfile' %}" class="nav-link" style="margin-bottom:-20px !important"><img src=${profilePicture} style="width:32px"></a>`
+                    profilSekilId.innerHTML =  `<a href="{% url 'myProfile' %}" class="nav-link" style="margin-bottom:-20px !important"><img src=${profilePicture} style="width:32px" class="img-circle avatar"></a>`
                 }
             })
         },

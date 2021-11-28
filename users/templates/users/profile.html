@@ -259,7 +259,13 @@
 
                         <div class="tab-pane fade" id="account-social-links">
                             <form id="socialForm">
+                            
                             <div class="card-body pb-2">
+
+                                <div id="social-alert" class="d-none">
+                                    
+                                </div>
+
                                     <div class="form-group">
                                         <label class="form-label">Twitter</label>
                                         <img src="{% static 'images/twitter.png' %}" alt="">
@@ -273,14 +279,14 @@
                                     <div class="form-group">
                                         <label class="form-label">LinkedIn</label>
                                         <img src="{% static 'images/linkedin.png' %}" alt="">
-                                        <input type="text" class="form-control" value="{{profile.linkedin}}" id="linkedinData" id="linkedinData">
+                                        <input type="text" class="form-control" value="{{profile.linkedin}}"  id="linkedinData">
                                     </div>
                                     <div class="form-group">
                                         <label class="form-label">Instagram</label>
                                         <img src="{% static 'images/instagram.png' %}" alt="">
-                                        <input type="text" class="form-control" value="{{profile.instaqram}}" id="instaqramData" id="instaqramData">
+                                        <input type="text" class="form-control" value="{{profile.instaqram}}" id="instaqramData">
                                     </div>
-                                    <button type="submit" class="btn btn-primary float-right">Yenile</button>
+                                    <button type="submit" class="btn btn-primary float-right">Testiq</button>
                                     <i style="color:#2d3436 !important" class="fas fa-info-circle"></i>
                                     <strong class=" text-muted font-weight-bold">Zehmet Olmasa Sosial Media Hesablarinizin ad seklinden ve ya link seklinde daxil edin</strong>
                                 </div>

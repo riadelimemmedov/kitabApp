@@ -247,7 +247,7 @@
         <div class="col-md-6">
           <div class="box" style="height: 700px !important;background-color: #FFFFFF;">
             <div class="img-box">
-              <img class="shadow" src="{{post.image.url}}" height="360px" alt="">
+              <img class="shadow-sm" src="{{post.image.url}}" height="360px" alt="">
               <h4 class="blog_date">
                 <span>
                   {{post.publishing_date|date:'F d,Y'}}
@@ -260,7 +260,7 @@
                 {{post.title}}
               </h5>
               <p>
-                {{post.content|truncatewords:50}}
+                {{post.content|truncatewords:44|safe}}
               </p>
               <a href="{% url 'postdetail' post.id %}">
                 Daha Ətrafli
@@ -269,7 +269,7 @@
           </div>
         </div>
         {% endfor %}
-        <a href="{% url 'posts' %}" class="btn btn-block font-weight-bold"
+        <a href="{% url 'posts' %}" class="btn btn-block font-weight-bold mb-1"
           style="color: #2c3e50 !important;text-decoration: underline ;">Butun Bloglar</a>
       </div>
     </div>

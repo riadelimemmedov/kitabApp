@@ -13,7 +13,7 @@ from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
 from django.core.files.storage import FileSystemStorage
 from django.core.files.base import ContentFile
-import base64
+from django.contrib.auth.decorators import login_required
 from .forms import *
 from django.http import JsonResponse
 # from users.forms import ContactForm,ProfileData
@@ -46,6 +46,7 @@ def userProfile(request):
 
 
 #*Bir seyi yadda saxlaki eger bir view yaradirsansa onun ucun mutleq ve mutleq bir url yaratmalisan
+@login_required(login_url='login')
 def update_personal_info(request):
     istifadeciProfil = UserProfile.objects.get(user=request.user)
     
@@ -70,6 +71,8 @@ def update_personal_info(request):
             'email':email,
             'oxucalis':oxucalis
         })
+        
+@login_required(login_url='login')
 @csrf_exempt
 def updateInfoExtraInfo(request):
     istifadeciProfil = UserProfile.objects.get(user=request.user)
@@ -95,8 +98,27 @@ def updateInfoExtraInfo(request):
             'nomreData':nomreData,
             'website':website
         })
-        
 
+@login_required(login_url='login')
+@csrf_exempt    
+def updateSocialNetwork(request):
+    istifadeciProfil = UserProfile.objects.get(user=request.user)
+    if request.is_ajax():
+        twitterData = request.POST.get('twitterData')
+        facebookData = request.POST.get('facebookData')
+        linkedinData = request.POST.get('linkedinData')
+        instaqramData = request.POST.get('instaqramData')
+        
+        istifadeciProfil.twitter = twitterData
+        istifadeciProfil.facebook = facebookData
+        istifadeciProfil.linkedin = linkedinData
+        istifadeciProfil.instaqram = instaqramData
+        
+        istifadeciProfil.save()
+        
+        return JsonResponse({'data':'Ugurlu bir cavab'})
+    
+@login_required(login_url='login')
 def change_password(request):
     if request.method == 'POST':
         form = PasswordChangeForm(request.user,request.POST)

@@ -10,6 +10,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css"
+		integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP" crossorigin="anonymous">
     <title>BlogDetail</title>
 </head>
 
@@ -141,87 +143,124 @@
     .post .post-footer .comments-list .comment>.comments-list {
         margin-left: 50px;
     }
+
+    .islem{
+        border: none;
+        background-color: #fff;
+        margin-right: -8px;
+        outline: none;
+    }
 </style>
 
 <body>
     <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css">
     <div class="container bootstrap snippets bootdey">
+
+        {% if messages %}
+            {% for message in messages %}
+            <div class="alert alert-{{message.tags}} alert-dismissible fade show mt-3" role="alert">
+                <strong>{{message}}</strong>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            {% endfor %}
+        {% endif %}
+        
         <di class="col-md-8">
             <div class="col-sm-12">
                 <div class="panel panel-white post panel-shadow">
                     <div class="post-heading">
                         <div class="pull-left image">
-                            <img src="{{user.image.url}}" class="img-circle avatar"
-                                alt="user profile image">
+                            {% if user.image %}
+                                <img src="{{user.image.url}}" class="img-circle avatar" alt="">
+                            {% else %}
+                                <img src="{% static 'images/user.png' %}" class="img-circle avatar" alt="">
+                            {% endif %}
                         </div>
                         <div class="pull-left meta">
                             <div class="title h5">
-                                <a href="#"><b>{{post.user.username}}</b></a>
+                                <a id="istifadeciad" href="#" data-post="{{post.id}}"><b>{{post.user.username}}</b></a>
                             </div>
                             <h6 class="text-muted time">{{post.publishing_date|date:'F d,Y'}}</h6>
                         </div>
                     </div>
-                    <div class="post-image">
-                        <img src="{{post.image.url}}" class="image" alt="image post">
+                    <div class="post-image" style="width:1108px !important;height: 544.01px !important;">
+                        <img src="{{post.image.url}}" class="image" alt="image post" style="width:1108px !important;height: 544.01px !important">
                     </div>
                     <div class="post-description">
                         <h4 class="text-muted">{{post.title}}</h4>
                         <hr>
-                        <p>{{post.content}}</p>
+                        <p>{{post.content|safe}}</p>
                         <div class="stats">
                             <a href="#" class="btn btn-default stat-item">
-                                <i class="fa fa-comments icon"></i>228
+                                <i class="fa fa-comments icon"></i>{{post.number_comment}}
                             </a>
                         </div>
                     </div>
                     <div class="post-footer">
-                        <div class="input-group">
-                            <input class="form-control" placeholder="Add a comment" type="text">
-                        </div>
+
+                        <form id="commentForm" action="{% url 'addComment' post.id %}" method="POST">
+                            {% csrf_token %}
+                            <div class="input-group">
+                                <input class="form-control" placeholder="Fikirlerinizi Bildirin" type="text" name="metn" id="commentInput">
+                            </div>
+                            <button type="submit" class="btn btn-primary float-right mt-1" id="formcommenttebutton">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-forward" viewBox="0 0 16 16">
+                                    <path d="M9.502 5.513a.144.144 0 0 0-.202.134V6.65a.5.5 0 0 1-.5.5H2.5v2.9h6.3a.5.5 0 0 1 .5.5v1.003c0 .108.11.176.202.134l3.984-2.933a.51.51 0 0 1 .042-.028.147.147 0 0 0 0-.252.51.51 0 0 1-.042-.028L9.502 5.513zM8.3 5.647a1.144 1.144 0 0 1 1.767-.96l3.994 2.94a1.147 1.147 0 0 1 0 1.946l-3.994 2.94a1.144 1.144 0 0 1-1.767-.96v-.503H2a.5.5 0 0 1-.5-.5v-3.9a.5.5 0 0 1 .5-.5h6.3v-.503z"/>
+                                </svg>
+                            </button>
+                        </form>
+
+
+                        <form id="updateCommentForm">
+                            <button type="submit" class="btn btn-info float-right" style="margin-top: -11.5px;margin-right: 3px;" id="updateCommentButton">
+                                <i class="fa fa-refresh" aria-hidden="true"></i>
+                            </button>
+                        </form>
+
+                        {% for comment in comments %}
                         <ul class="comments-list">
                             <li class="comment">
                                 <a class="pull-left" href="#">
-                                    <img class="avatar" src="https://bootdey.com/img/Content/user_3.jpg" alt="avatar">
+                                    {% if comment.comment_author.image %}
+                                        <img class="avatar" src="{{comment.comment_author.image.url}}" alt="">
+                                    {% else %}
+                                        <img class="avatar" src="{% static 'images/user.png' %}" alt="">
+                                    {% endif %}
                                 </a>
                                 <div class="comment-body">
                                     <div class="comment-heading">
-                                        <h4 class="user">Full name 1</h4>
-                                        <h5 class="time">7 minutes ago</h5>
+                                        
+                                        <h4 class="user font-weight-bold mr-0" id="commentAuthor">{{comment.comment_author.user.username}} -</h4>
+                                        {% if request.user.username == comment.comment_author.user.username %}<!--Her iki terefde usernamedirse ele username kimi yazmlisan sertiki Django casmasin,eger user dirsa onda her iki teref user olmalidir-->
+                                            <!-- <form id="update-form" class="d-inline"> -->
+                                                <!-- {% csrf_token %} -->
+                                                <button type="submit" class="islem updateIcon" id="updateBtn-{{comment.id}}" data-update="{{comment.id}}"><i class="far fa-edit text-primary" id="updateIcon"></i></button>
+                                                <button class="islem" id="deleteBtn"><i class="fas fa-trash-alt text-danger" id="deleteIcon"></i></button>
+                                            <!-- </form> -->
+                                        {% endif %}
+                                            
+
+                                        <h5 class="time ml-2 font-weight-bold" style="color: black;">{{comment.comment_date|date:'F, d, Y'}}</h5>
+                                        
                                     </div>
-                                    <p>This is a comment bla bla bla</p>
-                                </div>
-                            </li>
-                            <li class="comment">
-                                <a class="pull-left" href="#">
-                                    <img class="avatar" src="https://bootdey.com/img/Content/user_2.jpg" alt="avatar">
-                                </a>
-                                <div class="comment-body">
-                                    <div class="comment-heading">
-                                        <h4 class="user">Full name 2</h4>
-                                        <h5 class="time">3 minutes ago</h5>
-                                    </div>
-                                    <p>This is another comment bla bla bla</p>
-                                </div>
-                            </li>
-                            <li class="comment">
-                                <a class="pull-left" href="#">
-                                    <img class="avatar" src="https://bootdey.com/img/Content/user_3.jpg" alt="avatar">
-                                </a>
-                                <div class="comment-body">
-                                    <div class="comment-heading">
-                                        <h4 class="user">Full name 1</h4>
-                                        <h5 class="time">10 seconds ago</h5>
-                                    </div>
-                                    <p>Wow! This is a comment</p>
+                                    
+                                    <p class="commentContentClass" id="commentContent-{{comment.id}}" style="color:#718093 !important" data-row="{{comment.id}}">{{comment.comment_content}}</p>
                                 </div>
                             </li>
                         </ul>
+                        {% endfor %}
                     </div>
                 </div>
             </div>
         </di>
     </div>
 </body>
+
+<script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
+<script src="{% static 'js/commentupdatedelete.js' %}"></script>
+
 
 </html>
 {% endblock content %}
