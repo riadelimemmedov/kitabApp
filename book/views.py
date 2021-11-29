@@ -31,7 +31,6 @@ def detailView(request,id):
 
     context = {
         'book': book,
-        
     }
 
     return render(request,'detail.html',context)
@@ -114,11 +113,11 @@ def addComment(request,id):
         return redirect(reverse('postdetail',kwargs={'id':id}))#yeni hemin id li posta geri don
     
 #!Update Comment
-@csrf_exempt
+@csrf_exempt    
 def updateComment(request,id):
+    comment = Comment.objects.get(id=id)
     if request.is_ajax():
-        return JsonResponse({'data':True})
-
-    
-    
-    
+        if request.method == 'POST':
+            print('Data geldi')
+    return JsonResponse({'data':True})
+            
