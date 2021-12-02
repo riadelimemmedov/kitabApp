@@ -6,6 +6,8 @@ from django.core import serializers
 from users.models import UserProfile
 from django.contrib import messages
 from django.views.decorators.csrf import csrf_exempt
+from django.views.generic import ListView
+import json
 from .forms import *
 from .models import *
 # Create your views here.
@@ -118,6 +120,31 @@ def updateComment(request,id):
     comment = Comment.objects.get(id=id)
     if request.is_ajax():
         if request.method == 'POST':
-            print('Data geldi')
-    return JsonResponse({'data':True})
-            
+            comment.comment_content = request.POST.get('updatedComment')
+            comment.save()
+        else:
+            print('Xeta')
+    return JsonResponse({'data':True,'comment':request.POST.get('updatedComment')})
+
+
+@csrf_exempt
+def delete_comment(request,id):
+    deleteComment = Comment.objects.get(id=id)
+    #eger atilan requestim ajax dirsa bunu yoxla mutleq yeni mutleq sekilde is_ajax() sertini qoy
+    if request.is_ajax():
+        deleteComment.delete()
+        return JsonResponse({'delete_comment_id':id})#cunki geri donderilecek bir deyer yoxdur
+    
+    
+#!Search Blog
+#Gelen datani json cevirmek ucun json.dumps dan istifade olunur
+class BookListView(ListView):
+    model = Kitab
+    template_name = 'base.html'
+    context_object_name = 'books'
+    
+    #Eger biz html terefine bir contetext yeni dictonary bir deyer donderikse onda get_context_funksiyalarindan istifade etmeliyik class based viewlerde
+    def get_context_data(self,**kwargs):#kwargs yazilmasindaki sebeb,Pythnda **kwargslar geriye bir dictionary donderir
+        context = super(BookListView,self).get_context_data(**kwargs)
+        context['qs_json'] = json.dumps(list(Kitab.objects.all().values()))
+        return context #neceki funksiyalarda return render yazirsansa burdada bele tek return ile context deyerini geri donderib html de istifade edir

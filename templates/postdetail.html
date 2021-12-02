@@ -156,6 +156,12 @@
         box-shadow: none;
         outline: none;
     }
+
+    .deleteIcon:focus{
+        border: none;
+        box-shadow: none;
+        outline: none;
+    }
     
 </style>
 
@@ -174,7 +180,7 @@
             {% endfor %}
         {% endif %}
         
-        <di class="col-md-8">
+        <di class="col-md-4">
             <div class="col-sm-12">
                 <div class="panel panel-white post panel-shadow">
                     <div class="post-heading">
@@ -200,12 +206,17 @@
                         <hr>
                         <p>{{post.content|safe}}</p>
                         <div class="stats">
-                            <a href="#" class="btn btn-default stat-item">
-                                <i class="fa fa-comments icon"></i>{{post.number_comment}}
+                            <i class="fa fa-comments icon"></i>
+                            <a href="#" class="btn btn-default stat-item mr-2" id="commentSayi">
+                                {{post.number_comment}}
                             </a>
                         </div>
                     </div>
                     <div class="post-footer">
+
+                        <span id="commentUpdateAlert">
+                    
+                        </span>
 
                         <form id="commentForm" action="{% url 'addComment' post.id %}" method="POST">
                             {% csrf_token %}
@@ -221,13 +232,13 @@
 
 
                         <form id="updateCommentForm">
-                            <button type="submit" class="btn btn-info float-right" style="margin-top: -11.5px;margin-right: 3px;" id="updateCommentButton">
+                            <button type="submit" class="btn btn-info float-right d-none" style="margin-top: -11.5px;margin-right: 3px;" id="updateCommentButton">
                                 <i class="fa fa-refresh" aria-hidden="true"></i>
                             </button>
                         </form>
 
                         {% for comment in comments %}
-                        <ul class="comments-list">
+                        <ul class="comments-list" id="commentBody-{{comment.id}}">
                             <li class="comment">
                                 <a class="pull-left" href="#">
                                     {% if comment.comment_author.image %}
@@ -236,23 +247,28 @@
                                         <img class="avatar" src="{% static 'images/user.png' %}" alt="">
                                     {% endif %}
                                 </a>
-                                <div class="comment-body">
+                                <div class="comment-body" >
                                     <div class="comment-heading">
                                         
                                         <h4 class="user font-weight-bold mr-0" id="commentAuthor">{{comment.comment_author.user.username}} -</h4>
                                         {% if request.user.username == comment.comment_author.user.username %}<!--Her iki terefde usernamedirse ele username kimi yazmlisan sertiki Django casmasin,eger user dirsa onda her iki teref user olmalidir-->
-                                            <!-- <form id="update-form" class="d-inline"> -->
-                                                <!-- {% csrf_token %} -->
                                                 <button type="submit" class="islem updateIcon" id="updateBtn-{{comment.id}}" data-update="{{comment.id}}"><i class="far fa-edit text-primary" id="updateIcon"></i></button>
-                                                <button class="islem" id="deleteBtn"><i class="fas fa-trash-alt text-danger" id="deleteIcon"></i></button>
-                                            <!-- </form> -->
+                                                
+                                                <!-- !Delete form-->
+                                                <!-- <form id="deleteCommentForm" class="d-inline">hemise csrf_token yaz yoxsa django qoymur isteyirnse lap bele ajaxla yazsanda mutleq csrf olmalidir,yoxsa gondere bilmessen ne POST request nede GET reqeust
+                                                    {% csrf_token %}
+                                                </form> -->
+
+
+                                                <button type="submit" class="islem deleteIcon" id="deleteBtn-{{comment.id}}"><i class="fas fa-trash-alt text-danger" id="deleteIcon"></i></button>
+
+                            
                                         {% endif %}
                                             
 
                                         <h5 class="time ml-2 font-weight-bold" style="color: black;">{{comment.comment_date|date:'F, d, Y'}}</h5>
                                         
                                     </div>
-                                    
                                     <p class="commentContentClass" id="commentContent-{{comment.id}}" style="color:#718093 !important" data-row="{{comment.id}}">{{comment.comment_content}}</p>
                                 </div>
                             </li>
@@ -265,7 +281,7 @@
     </div>
 </body>
 
-<script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
+<script src="{% static 'js/jquery-3.4.1.min.js' %}" defer></script>
 <script src="{% static 'js/commentupdatedelete.js' %}"></script>
 
 

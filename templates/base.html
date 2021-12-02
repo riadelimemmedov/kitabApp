@@ -35,6 +35,8 @@
                 </span>
             </a>
 
+            
+
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class=""> </span>
@@ -75,20 +77,39 @@
 
 
 
-                <from class="search_form">
+                <span class="search_form">
+
                     <input type="text" class="form-control" placeholder="Axtaris...">
                     <button class="" type="submit">
                         <i class="fa fa-search" aria-hidden="true"></i>
                     </button>
-                </from>
+        
+                </span>
+
+
+                
+
             </div>
+            
         </nav>
     </div>
 </header>
 
 
 
+
+
+    <div class="col-2 float-right mt-1" style="margin-right: -12px; width: 265px;">
+        <div class="list-group">
+            <a class="list-group-item list-group-item-action list-group-item-info active text-light font-weight-bold">Home</a>
+        </div>
+    </div>
+
+
+
+
 {% block content %}
+
 {% endblock content %}
 
 
@@ -138,6 +159,9 @@
             console.log('Xeta var', err)
         }
     })
+
+
+    
 
     
 

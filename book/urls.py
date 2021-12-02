@@ -15,6 +15,8 @@ urlpatterns = [
     path('deletepost/<int:id>/',deletePost,name='deletepost'),
     path('addComment/<int:id>/',addComment,name='addComment'),
     
-    path('updateComment/<int:id>',updateComment,name='updatecomment'),
-
+    path('postdetail/updateComment/<int:id>',updateComment,name='updatecomment'),
+    path('postdetail/deleteComment/<int:id>',delete_comment,name='deletecomment'),
+    
+    path('',BookListView,name='booklist'),
 ]       
