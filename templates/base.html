@@ -26,6 +26,11 @@
     <link href="{% static 'css/responsive.css' %}" rel="stylesheet" />
 
 </head>
+
+<style>
+
+</style>
+
 <header class="header_section">
     <div class="container-fluid">
         <nav class="navbar navbar-expand-lg custom_nav-container ">
@@ -76,21 +81,18 @@
                 </ul>
 
 
+                    <!--!Search Form deyilir yeni form yazmaliyig html tagi icinde form yeni -->
 
-                <span class="search_form">
+                    <span class="search-form">
 
-                    <input type="text" class="form-control" placeholder="Axtaris...">
-                    <button class="" type="submit">
-                        <i class="fa fa-search" aria-hidden="true"></i>
-                    </button>
-        
-                </span>
-
-
-                
+                        <form form action="" style="margin-bottom: -5px;" id="search-form" autocomplete="off"><!--Metod yazmiram cunki jqueyde ki ajaxda qeyd edecem onsuz ve ya fetch ile yazsam fetch de ferq etmie -->
+                            {% csrf_token %}
+                            <input type="text" class="form-control" id="search-input" placeholder="Axtaris...">
+                        </form>
+            
+                    </span>
 
             </div>
-            
         </nav>
     </div>
 </header>
@@ -98,11 +100,10 @@
 
 
 
+    <!--!Search den gelen title tututldugu yer -->
 
-    <div class="col-2 float-right mt-1" style="margin-right: -12px; width: 265px;">
-        <div class="list-group">
-            <a class="list-group-item list-group-item-action list-group-item-info active text-light font-weight-bold">Home</a>
-        </div>
+    <div class="col-2 float-right mt-1 d-none text-muted" style="margin-right: -12px; width: 265px;background-color:#fff !important;" id="result-box">
+        
     </div>
 
 
@@ -161,7 +162,76 @@
     })
 
 
+
+
+
+
+
     
+    //SearchBook + Ajax
+
+    const searchForm = document.getElementById('search-form')
+    const searchInput = document.getElementById('search-input')
+    const resutltBox = document.getElementById('result-box')
+
+    const csrfSearch = document.getElementsByName('csrfmiddlewaretoken')[0].value
+    
+
+    //Yadda saxlaki Js de funksiyani deyisken kimi tanimlayib istifade etmek mumkundur
+
+    const sendSearchData = function(book){//e.targetden keyup olanda inputdaki value gelecek bura sonra ise DataBaseye Sorgu gonderilecek
+        $.ajax({
+            type:'POST',
+            url:'/search/',
+            data : {
+                'csrfmiddlewaretoken':csrfSearch,
+                'book':book,//asagida qeyd edecem bu booku yeni asagida cagiracam bu funksiyani her klaviaturada tiklanma bas verende
+            },
+            success:function(response){
+                console.log('Ugurlu Bir Response Geri Dondu SEARCH VIEW den ' + response.data)//View terefden return JsonResponseEdende dictionary geri donur ve burdaki data dictionaryin key deyeridir,yeni biz key deyerini versek Python bize hemin key gore bir value geri donderecek
+                const dictData = response.data
+
+                //Array.isArray(viewdengelenarray) meselen,yeni gelen datanin array olub ve ya olmamagini yoxlaya bilerik
+                
+                if(Array.isArray(dictData)){
+                    dictData.forEach(function(item){//array icinde geze bilirikse demeli for ilseyir for isleyirse demeli ele if isleyir
+                        
+                        resutltBox.innerHTML = ''//yeni her forEachd temizlensin sonra ne yazilirsan yeniden yazilar bele yazilmasa ustune yazacah her keyupda bizde ele istemirik
+                        resutltBox.innerHTML += `
+                            <div class="list-group">
+                                <a href="detail/${item.pk}" class="list-group-item list-group-item-action list-group-item-info active text-light font-weight-bold w-auto" style="border: 1px solid;border-radius: 35px;outline: none;" id="searcitem">
+                                    ${item.name} - ${item.author}
+                                </a>
+                            </div>
+                        `
+                    })
+                }
+
+                //eger Array Bos Gelibse
+                else{
+                    if(searchInput.value.length > 0){//deyer girilib amma Databasede uygun u yoxdur Inputdan girilen deyer
+                        resutltBox.innerHTML = `<strong class="text-center text-dark">${dictData}</strong>`
+                    }
+                    //yox eger inputdan bir deyer girilmeyibse gizlet div-i
+                    else{
+                        resutltBox.classList.add('d-none')
+                    }
+                }
+            },
+
+            error : function(err){
+                console.log('Xeta bas verdi ' + err)
+            }
+        })
+    }
+    
+    searchInput.addEventListener('keyup',function(e){//keyup olanda yeni tiklayib buraxanda bas verecek hadiseler
+        if(resutltBox.classList.contains('d-none')){//yeni klaviaturaya tiklayanda resultbox gizlidirse onun gizlilik classlini cixart remove('d-none') et
+            resutltBox.classList.remove('d-none')
+        }
+
+        sendSearchData(e.target.value)
+    })
 
     
 

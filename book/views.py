@@ -6,7 +6,8 @@ from django.core import serializers
 from users.models import UserProfile
 from django.contrib import messages
 from django.views.decorators.csrf import csrf_exempt
-from django.views.generic import ListView
+from django.utils.decorators import method_decorator
+from django.views.generic import ListView,View
 import json
 from .forms import *
 from .models import *
@@ -39,6 +40,11 @@ def detailView(request,id):
 
 def allCategory(request):
     categoryList = Category.objects.all()
+    
+    resimler = []
+    
+    for i in categoryList:
+        print(str(i.category_picture.url))
     
     context = {
         'categoryList': categoryList,
@@ -134,17 +140,46 @@ def delete_comment(request,id):
     if request.is_ajax():
         deleteComment.delete()
         return JsonResponse({'delete_comment_id':id})#cunki geri donderilecek bir deyer yoxdur
+
+
+#!Search View with ajax
+
+def searh_result(request):#funksiyalar hemise request bir deyer almalidir Djangoda cunki html e reqeust atirig her hansi bir funksiya isleyende
+    #Eger ajax yazmisigda bunu if ile yoxlamaliyig gelen sorgunun AJAX ile olub olmamasini => request.is_ajax() ile 
+    
+    if request.is_ajax():
+        res = None#Bos yeni
+        book = request.POST.get('book')
+        
+        qs = Kitab.objects.filter(name__icontains = book)
+        
+        if len(qs)>0  and len(book) > 0:
+            data = []
+            for bk in qs:#yeni filterdan bildiyimiz kimi 1 dene deyil 1 den cox List yeni QuerySet gele biler
+                item = {
+                    'pk':bk.pk,#yeni filterden gelen her bir postun id si bu mene detail gedende lazim olacag
+                    'name':bk.name,#filterden gelen her bir kitabin adi
+                    'author':bk.author#filterden gelen her bir deyerin author yeni muellifi,for ile yazilmasindaki sebeb daha listelemek ucun filterden gelen QuerySeti
+                }
+                data.append(item)
+            res=data
+        
+        else:
+            res='Axtarisa Uygun Bir Kitab Tapilmadi'
+        
+        return JsonResponse({'data':res})#res i Js terefine gonder yeni => {[]} formada olacag cunki res bir list dir ona gorede Js terefinde yoxlamag lazimdir res in Array yeni bir list olub olmamagini
+
+    #return JsonResponse({})#buda geriye eslinde bir 'data gonderir' en axirinci variant kimi
     
     
-#!Search Blog
-#Gelen datani json cevirmek ucun json.dumps dan istifade olunur
-class BookListView(ListView):
-    model = Kitab
-    template_name = 'base.html'
-    context_object_name = 'books'
-    
-    #Eger biz html terefine bir contetext yeni dictonary bir deyer donderikse onda get_context_funksiyalarindan istifade etmeliyik class based viewlerde
-    def get_context_data(self,**kwargs):#kwargs yazilmasindaki sebeb,Pythnda **kwargslar geriye bir dictionary donderir
-        context = super(BookListView,self).get_context_data(**kwargs)
-        context['qs_json'] = json.dumps(list(Kitab.objects.all().values()))
-        return context #neceki funksiyalarda return render yazirsansa burdada bele tek return ile context deyerini geri donderib html de istifade edir
+#!Her Butona Tiklayanda 2 dene Post Yuklenme Kodu
+
+class CategoryListView(View):#View sade bir def ile yazilan funksiya djangodakinviewleri temsil eden kimi basa dus
+    def get(self,*args,**kwargs):
+        upper = kwargs.get('category_id')
+        lower = upper-3
+        categorys = list(Category.objects.values()[lower:upper])
+        category_size = len(Category.objects.all())
+        max_size = True if upper>=category_size else False
+        return JsonResponse({'categorys':categorys,'max_size':max_size},safe=False)
+        

@@ -6,7 +6,7 @@ urlpatterns = [
     path('books/',BookView.as_view(),name='books'),#js
     path('detail/<int:id>',detailView,name='detail'),
     path('booklist/',BookList.as_view(),name='booklist'),
-    path('categorys/',allCategory,name='categorys'),
+    path('categorys',allCategory,name='categorys'),
     path('postdetail/<int:id>',postDetail,name='postdetail'),
     path('posts/',allPost,name='posts'),
     path('categorybook/<str:slug>',categoryBook,name='categorybook'),
@@ -18,5 +18,9 @@ urlpatterns = [
     path('postdetail/updateComment/<int:id>',updateComment,name='updatecomment'),
     path('postdetail/deleteComment/<int:id>',delete_comment,name='deletecomment'),
     
-    path('',BookListView,name='booklist'),
-]       
+    path('search/',searh_result,name='search'),
+    
+    path('category-json/<int:category_id>',CategoryListView.as_view(),name='category-json'),
+]
+
+handler404 = 'kitabxana.views.handle_not_found'

@@ -13,7 +13,7 @@
 </head>
 
 <style>
-  #dahacox:hover{
+  #daha-cox:hover{
     color: #fff !important;
   }
 </style>
@@ -31,29 +31,39 @@
             Muxtəlif Növdə Kitab Çeşidləri
           </p>
         </div>
-        <div class="row">
-          {% for kategoriya in categoryList %}
-            <div class="col-sm-6 col-md-4 ">
-              <div class="box ">
-                <div class="img-box kitab">
-                  <img src="{{kategoriya.category_picture.url}}" alt="">
-                </div>
-                <div class="detail-box">
-                  <h5>
-                      <a style="color: #30336b;" id="kategoryTitle" href="{% url 'categorybook' kategoriya.slug %}">{{kategoriya.title}}</a>
-                  </h5>
-                  <p>
-                      {{kategoriya.text}}
-                  </div>
-                  </p>
-              </div>
-            </div>
-        {% endfor %}
-        <a class="btn btn-outline-dark btn-block text-dark" id="dahacox">Daha Cox </a>
+
+        <div id="loadBox">
+            
         </div>
+
+        <div class="row" id="categories-box">
+
+        
+        
+        </div>
+
+        <button class="btn btn-outline-dark btn-block" id="daha-cox" style="outline: none;">Daha Cox</button>
+
+        <!--!Spinner Yeri-->
+        <div class="d-flex justify-content-center mt-3">
+          <div class="spinner-border d-none" role="status" style="color: #0047fa;" id="spinner-box">
+            
+          </div>
+        </div>
+
       </div>
     </div>
   </section>
+
+  <script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
+  <script src="{% static 'js/loadercategory.js' %}"></script>
+
+  <script> 
+
+      
+
+  </script>
+
 </body> 
 </html>
 {% endblock content %}

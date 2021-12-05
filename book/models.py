@@ -10,7 +10,7 @@ from django.utils.text import slugify
 # Create your models here.
 class Category(models.Model):
     title = models.CharField(max_length=250)
-    slug = models.SlugField()#editable=False olanda yeni gorunmez olur bura amma ehtiyac yoxdur cox
+    slug = models.SlugField(editable=False)#editable=False olanda yeni gorunmez olur bura amma ehtiyac yoxdur cox
     category_picture = models.ImageField(upload_to='sekiller/')
     text = models.TextField(max_length=255)
     
